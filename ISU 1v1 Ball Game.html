@@ -1,0 +1,306 @@
+<html>
+<head>
+ <title> 1 vs 1 Basketball Game </title>
+	<script type="text/javascript">
+	  var p1Score = 0; // player 1's score
+      var p2Score = 0; // player 2's score
+	  var player1; // see below
+      var player2; // these determine who is offence and defence
+	  var userTurns; // desired turns to play
+	  var valid; // checks if turn input is valid
+	  var x; // displays/hides images
+	  var textDef = "Defense: "; // says whose turn it is
+	  var textOff = "Offense: "; // says whose turn it is
+	  var roleText = ""; // displays text based on who is offence and defence	
+	  
+      alert("Welcome to a decision-making 1v1 basketball game!");
+	  
+      var player1Name = [];
+      player1Name = prompt("Player 1: Enter a city or organization name (eg. Toronto), followed by a comma, and a team name (eg. Raptors).");
+		var comma1 = player1Name.indexOf(",");
+		var city1 = player1Name.substring(0, comma1); // use .substring so it omits the comma in the alert
+		var organization1 = player1Name.substr(comma1, );
+		alert("Have fun out there! Good luck, " + player1Name + "!");
+     
+	  	do { // makes sure the team names are different
+	  var player2Name = [];
+      player2Name = prompt("Player 2: Enter a city or organization name (eg. Portland), followed by a comma, and a team name (eg. Trail Blazers).");
+	  
+		if(player2Name == player1Name){ // if names are the same, loop will run again
+		
+		alert("The team names CANNOT be the same. Please enter a different name.");
+		
+		} 
+	} while (player1Name == player2Name)
+    
+		var comma2 = player2Name.indexOf(",");
+		var city2 = player2Name.substring(0, comma2);
+		var organization2 = player2Name.substr(comma2, );
+		alert("Have a great time! Go get em', " + player2Name + "!");
+      
+   do { // checks if var userTurns is type number or not and if it is 1 or above
+    userTurns = prompt("How many turns do you wish to play? (1 turn passes AFTER offense attempts a shot.)");
+	  userTurns = Number(userTurns);
+    
+		valid = validTurns(userTurns); // runs function below
+        
+        function validTurns(userTurns) {
+	
+          if (isNaN(userTurns) == false && userTurns >= 1) { // userTurns is at least 1 and is type number
+			
+				return true;
+				
+			} else { // NaN == true; userTurns < 1
+			
+				alert("This input is invalid. Try again.");
+                return false;
+            }
+		}
+    } while (valid == false)
+		
+      
+	  var firstPoss = (Math.floor(Math.random()*2)+1); // 50% chance
+      if (firstPoss == 1) { // player 1 has 1st posession
+        player1 = "Player 1 is offense";
+        player2 = "Player 2 is defense";
+        alert(player1Name + " is offense, and " + player2Name + " is defense. You want to play: " + userTurns + " rounds. Let the game begin!");		
+      }
+      else{ // player 2 has 1st posession
+        player2 = "Player 2 is offense";
+        player1 = "Player 1 is defense";
+        alert(player1Name + " is defense, and " + player2Name + " is offense. You want to play: " + userTurns + " rounds. Let the game begin!");
+      }
+	  // alerts display who's who, and the desired number of turns; game begins here
+    </script>
+</head>
+<body background="https://78.media.tumblr.com/ccad489ff6e9ad15be6f609b85f7b99f/tumblr_nr47q9kfXw1sh05g3o1_1280.jpg">
+<p id = "textPoss"><p id = "textScore">Awaiting the first basket...</p> 
+
+<div id="divDefense" style="background-color:#74c9ff;width:1900px;height:900px">
+ <body>     
+		<img src="Block Pic/Block.jpg" onClick="defenseBlock();" style="position:absolute;TOP: 150px; LEFT:700px; height:50px;width:100px">
+		<img src="Block Pic/Steal.jpg" onClick="defenseSteal();" style="position:absolute;TOP: 150px; LEFT:1200px; height:50px;width:100px">
+		<img src="Block Pic/Kobe.png" 	style="position:absolute;TOP: 206px; LEFT:400px">
+ </body>
+	<script>
+	if(player1=="Player 1 is offense" && player2=="Player 2 is defense"){
+	roleText = textDef + "What do you want to do? Defense: " + player2Name.bold() + ", Offense: " + player1Name;
+	}else{
+	roleText = textDef + "What do you want to do? Defense: " + player1Name.bold() + ", Offense: " + player2Name;
+	}
+	document.getElementById('textScore').style.color = "white"; // changes text colour to white
+	document.getElementById('textPoss').style.color = "white"; // changes text colour to white
+	document.getElementById('textPoss').innerHTML = roleText; 
+	
+		function defenseBlock() { 
+			var probability = (Math.floor(Math.random()*2)+1); // 50% chance (1/2)
+				if (probability == 1) { // successful
+				alert("You blocked the shot!");
+					if(player1=="Player 1 is offense" && player2=="Player 2 is defense"){ // switches roles
+					player1 = "Player 1 is defense";
+					player2 = "Player 2 is offense";						
+					roleText = textDef + "What do you want to do? Defense: " + player1Name.bold() + ", Offense: " + player2Name;
+					}else{ 
+					player2 = "Player 2 is defense";
+					player1 = "Player 1 is offense";						
+					roleText = textDef + "What do you want to do? Defense: " + player2Name.bold() + ", Offense: " +  player1Name;
+					}
+				alert("GREAT! BLOCK POSSESION CHANGED! " + player1 + " and " + player2); 
+				document.getElementById('textPoss').style.color = "white";
+				document.getElementById('textPoss').innerHTML = roleText;
+				} else { // failed
+				alert("You failed to block!");       
+				x = document.getElementById("divDefense");
+				x.style.display = "none";
+				x = document.getElementById("divOffense"); // offence div appears, defence div hides
+				x.style.display = "block";
+				alert("LOOKS LIKE OFFENSE'S READY TO SHOOT! " + player1 + " and " + player2);
+					if(player1=="Player 1 is offense" && player2=="Player 2 is defense"){
+					roleText = textOff + "What do you want to do? Defense: " + player2Name + ", Offense: " + player1Name.bold();
+					}else{
+					roleText = textOff + "What do you want to do? Defense: " + player1Name + ", Offense: " + player2Name.bold();
+					}
+					document.getElementById('textPoss').style.color = "white";
+					document.getElementById('textPoss').innerHTML = roleText; 		
+				}
+		}
+            
+		function defenseSteal() {
+			var probability = (Math.floor(Math.random()*5)+1); // 20% chance (1/5)
+				if (probability == 1) { // successful steal
+				alert("You stole the ball! You drove to the basket and scored a wide-open layup!"); // defence earns 2 points
+					
+						if (player2 == "Player 2 is defense") {
+						p2Score = p2Score + 2;
+						} else {	
+						p1Score = p1Score + 2;
+						}
+						document.getElementById('textScore').style.color = "white";
+						document.getElementById('textScore').innerHTML = "Score: " + player1Name + " - " + p1Score + " || " + player2Name + " - " + p2Score; // scoreboard
+				alert("TURNOVER! The roles remain unchanged: " + player1 + " and " + player2); 
+				document.getElementById('textPoss').style.color = "white";
+				document.getElementById('textPoss').innerHTML = roleText;
+				} else { // failed
+				alert("You failed to steal it!");       
+				x = document.getElementById("divDefense");
+				x.style.display = "none";
+				x = document.getElementById("divOffense"); // defence div hides, offence div shows
+				x.style.display = "block";
+				alert("LOOKS LIKE OFFENSE'S READY TO SHOOT! " + player1 + " and " + player2);
+					if(player1=="Player 1 is offense" && player2=="Player 2 is defense"){
+					roleText = textOff + "What do you want to do? Defense: " + player2Name + ", Offense: " + player1Name.bold();
+					}else{
+					roleText = textOff + "What do you want to do? Defense: " + player1Name + ", Offense: " + player2Name.bold();
+					}
+				document.getElementById('textPoss').style.color = "white";
+				document.getElementById('textPoss').innerHTML = roleText;				
+				}
+		}	
+	</script>
+</div>
+  
+<div id="divOffense" style="background-color:#ff7475;width:1900px;height:900px">
+ <body>
+		<img src="Offense Pic/2Points.jpg" onClick="offense2Points();" style="position:absolute;TOP: 800px; LEFT:200px; height:150px;width:250px">
+		<img src="Offense Pic/2PointPic.jpg" style="position:absolute;LEFT:100px; height:700px;width:400px">
+		<img src="Offense Pic/Blackline.jpg" style="position:absolute;LEFT:620px; height:900px;width:30px">
+		
+		<img src="Offense Pic/3Points.jpg" onClick="offense3Points();" style="position:absolute;LEFT:800px;height:150px;width:360px">
+		<img src="Offense Pic/3PointPic.jpg" style="position:absolute;TOP: 370px; LEFT:650px; height:600px;width:700px">
+		<img src="Offense Pic/Blackline.jpg" style="position:absolute;LEFT:1350px; height:900px;width:30px">
+		
+        <img src="Offense Pic/layup.jpg" onClick="offenseLayup();" style="position:absolute;TOP: 750px; LEFT:1500px;height:150px;width:250px">
+		<img src="Offense Pic/LayupPic.jpg" style="position:absolute;LEFT:1400px; height:700px;width:500px">		
+ </body>
+     
+     <script>
+	
+        function offense2Points() {
+			var probability = (Math.floor(Math.random()*5)+1); // 60% chance (3/5)
+				if (probability <= 3) { // success
+					if (player1 == "Player 1 is offense") { // player 1 made the shot
+					p1Score = p1Score + 2;
+					} else { // player 2 made the shot
+					p2Score = p2Score + 2;
+					}
+				alert("You made a 2 point shot!");
+				} else {
+				alert("You missed the shot!");
+				}
+        gameProcess(); // see the gameProcess function below
+	}
+			
+	function offense3Points() {
+
+			var probability = (Math.floor(Math.random()*5)+1); // 40% chance (2/5)
+				if (probability <= 2) { // success
+					if (player1 == "Player 1 is offense") { // player 1 made the shot
+					p1Score = p1Score + 3;
+					} else { // player 2 made the shot
+					p2Score = p2Score + 3;
+					}
+				alert("You made a 3 point shot!");
+				} else {
+				alert("You missed the shot!");
+				}
+		gameProcess();
+	}
+       
+    function offenseLayup() {
+		var probability = (Math.floor(Math.random()*10)+1); // 70% chance (7/10)
+			if (probability <= 7) { // success
+				if (player1 == "Player 1 is offense") { // player 1 made shot
+					p1Score = p1Score + 2;
+				} else { // player 2 made shot
+					p2Score = p2Score + 2;
+				}
+					alert("You made the layup!");
+			} else {
+			alert("You missed an easy layup!");
+			}
+		gameProcess();
+	}
+	
+	function gameProcess(){ // displays stats and # of turns left OR if userTurns == 0, displays winner
+    
+		document.getElementById('textScore').style.color = "white";
+		document.getElementById('textScore').innerHTML = "Score: " + player1Name + " - " + p1Score + " || " + player2Name + " - " + p2Score;	
+		userTurns--; // turns decreases by 1
+		
+			if(userTurns >= 1){ // continue the game
+				alert("There are " + userTurns + " turns left. The score for " + player1Name + " is " + p1Score + " The score for " + player2Name + " is " + p2Score);
+					if(player1=="Player 1 is offense" && player2=="Player 2 is defense"){ // switch roles
+						player1 = "Player 1 is defense";
+						player2 = "Player 2 is offense";
+						roleText = textDef + "What do you want to do? Defense: " + player1Name.bold() + ", Offense: " + player2Name;						
+					}else{
+						player2 = "Player 2 is defense";
+						player1 = "Player 1 is offense";
+						roleText = textDef + "What do you want to do? Defense: " + player2Name.bold() + ", Offense: " +  player1Name;						
+					}
+				alert("CHANGE POSSESION! " + player1 + " and " + player2);
+				document.getElementById('textPoss').style.color = "white";
+				document.getElementById('textPoss').innerHTML = roleText;
+				x = document.getElementById("divDefense");
+				x.style.display = "block";
+				x = document.getElementById("divOffense");
+				x.style.display = "none";
+			} else { // end of the game
+				
+				x = document.getElementById("divOffense");
+				x.style.display = "none";
+				x = document.getElementById("divFinal"); // offence div hides, final div shows
+				x.style.display = "block";
+	
+				endGame(); // see function below
+			}
+	}
+     </script>   
+</div>
+
+
+
+<div id="divFinal" style="width:1900px;height:900px">
+<body>
+<img id="winner" src="PLAYER1WINS.jpg" style="width:1800px;height:800px">
+<p id = "finalText"></p>
+<a href="Intro 1v1 Ball Game.html"><img src="http://pixelartmaker.com/art/ac639320ba7c43c.png" alt="HTML tutorial" style="width:400px;height:200px;border:0"></a>  <!-- Links to the welcome screen! -->
+</body>
+	<script>
+	
+		function endGame() { // displays the winner + score OR if a tie game, displays score
+			var finalScore = ""; // text displaying the winner (or if a tie)
+			
+				if(p1Score > p2Score){
+					finalScore = finalScore + player1Name.bold() + " won with a score of " + p1Score + "!";
+					document.getElementById('winner').src="PLAYER1WINS.jpg";
+				} else if (p1Score < p2Score) {
+					document.getElementById('winner').src="PLAYER2WINS.jpg";
+					finalScore = finalScore + player2Name.bold() + " won with a score of " + p2Score + "!";
+				} else {
+					finalScore = finalScore + "It's a tie game! The score is " + p1Score + " - " + p2Score + ". If you wish, play again to settle the score!";
+					document.getElementById('winner').src="TIEGAME.jpg";
+				}
+			
+			document.getElementById('finalText').style.color = "white"; 
+			document.getElementById('finalText').innerHTML = finalScore;
+		}
+			
+	</script>
+	
+</div>
+
+<script> // initially, the defense div shows first; offence and final divs hidden
+
+	x = document.getElementById("divDefense");
+	x.style.display = "block"; // show
+	
+	x = document.getElementById("divOffense");
+	x.style.display = "none"; // hide
+	
+	x = document.getElementById("divFinal");
+	x.style.display = "none"; // hide
+
+</script>
+</body>
+</html>
